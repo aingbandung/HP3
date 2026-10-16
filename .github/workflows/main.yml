@@ -1,0 +1,104 @@
+name: Build Android APK - Temukan HP by Firdaus
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Buat GitHub Release otomatis dengan file APK?'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Web Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build Web Assets (Vite Production)
+        run: npm run build
+
+      - name: Install Capacitor CLI & Android
+        run: npm install --legacy-peer-deps --no-save @capacitor/core@^6.0.0 @capacitor/cli@^6.0.0 @capacitor/android@^6.0.0
+
+      - name: Add Android Platform
+        run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+
+      - name: Configure Android Permissions in AndroidManifest.xml
+        run: node scripts/configure-android.js
+
+      - name: Sync Web Code to Native Android
+        run: npx cap sync android
+
+      - name: Set Executable Permission for Gradlew
+        run: chmod +x android/gradlew
+
+      - name: Build Debug APK using Gradle
+        run: |
+          cd android
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Organize APK Output
+        run: |
+          mkdir -p output-apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk output-apk/Temukan-HP-by-Firdaus.apk
+          echo "APK generated at output-apk/Temukan-HP-by-Firdaus.apk"
+
+      - name: Upload APK Artifact to GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: Temukan-HP-by-Firdaus-APK
+          path: output-apk/Temukan-HP-by-Firdaus.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create GitHub Release (Optional)
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.create_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: output-apk/Temukan-HP-by-Firdaus.apk
+          name: Release Temukan HP by Firdaus ${{ github.ref_name }}
+          body: |
+            ## Temukan HP by Firdaus - APK Android
+
+            Aplikasi pelacak HP pintar otomatis mendeteksi tepukan tangan.
+
+            ### Cara Install di HP Android:
+            1. Unduh file `Temukan-HP-by-Firdaus.apk` di bawah.
+            2. Buka file APK di HP Android Anda.
+            3. Jika muncul peringatan keamanan, pilih **Tetap Install** (Izinkan instalasi dari sumber tidak dikenal).
+            4. Buka aplikasi, berikan izin Mikrofon & Notifikasi.
+            5. Selesai! Aplikasi siap digunakan.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
