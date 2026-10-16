@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="50%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Phone Bezel Gradient -->
+    <linearGradient id="phoneBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <!-- Phone Screen Background -->
+    <linearGradient id="screenBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0b1528" />
+      <stop offset="100%" stop-color="#020817" />
+    </linearGradient>
+
+    <!-- Radar Sweep Gradient -->
+    <linearGradient id="radarSweep" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0.55" />
+    </linearGradient>
+
+    <!-- Glow Effect Filter -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="blipGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- App Icon Base Squircle Background -->
+  <rect width="512" height="512" rx="120" fill="url(#bgGrad)" />
+  <rect width="504" height="504" x="4" y="4" rx="116" fill="none" stroke="#1e293b" stroke-width="3" stroke-opacity="0.6" />
+
+  <!-- Outer Ambient Radar Waves emitted into the air -->
+  <g fill="none" stroke-linecap="round">
+    <!-- Wave 1 (Upper Outer) -->
+    <path d="M 120 110 A 190 190 0 0 1 392 110" stroke="#38bdf8" stroke-width="4" stroke-opacity="0.25" stroke-dasharray="8 6" />
+    <!-- Wave 2 (Upper Mid) -->
+    <path d="M 155 130 A 145 145 0 0 1 357 130" stroke="#38bdf8" stroke-width="5" stroke-opacity="0.45" />
+    <!-- Wave 3 (Upper Inner) -->
+    <path d="M 195 150 A 95 95 0 0 1 317 150" stroke="#00f0ff" stroke-width="6" stroke-opacity="0.75" filter="url(#blipGlow)" />
+  </g>
+
+  <!-- SMARTPHONE BODY (Bentuk HP) -->
+  <g>
+    <!-- Phone Outer Shadow / Glow -->
+    <rect x="156" y="86" width="200" height="340" rx="42" fill="#030712" filter="url(#neonGlow)" opacity="0.6" />
+    
+    <!-- Phone Metallic Outer Frame -->
+    <rect x="156" y="86" width="200" height="340" rx="42" fill="#0f172a" stroke="url(#phoneBorder)" stroke-width="6" />
+
+    <!-- Smartphone Glass Inner Screen -->
+    <rect x="170" y="104" width="172" height="304" rx="30" fill="url(#screenBg)" />
+
+    <!-- Phone Top Speaker / Dynamic Island Notch -->
+    <rect x="228" y="116" width="56" height="10" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <!-- Camera pinhole dot -->
+    <circle cx="270" cy="121" r="2.5" fill="#0284c7" />
+
+    <!-- RADAR SYMBOL ON SCREEN (Simbol Radar di Layar HP) -->
+    <!-- Radar Grid Crosshairs -->
+    <g stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.25">
+      <line x1="184" y1="256" x2="328" y2="256" stroke-dasharray="4 3" />
+      <line x1="256" y1="184" x2="256" y2="328" stroke-dasharray="4 3" />
+      <!-- Diagonal Axis -->
+      <line x1="205" y1="205" x2="307" y2="307" stroke-dasharray="3 4" stroke-opacity="0.15" />
+      <line x1="205" y1="307" x2="307" y2="205" stroke-dasharray="3 4" stroke-opacity="0.15" />
+    </g>
+
+    <!-- Concentric Radar Circles -->
+    <!-- Outer Radar Ring -->
+    <circle cx="256" cy="256" r="70" fill="none" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.35" />
+    <!-- Middle Radar Ring -->
+    <circle cx="256" cy="256" r="48" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-opacity="0.55" />
+    <!-- Inner Radar Ring -->
+    <circle cx="256" cy="256" r="26" fill="none" stroke="#00f0ff" stroke-width="3" stroke-opacity="0.8" />
+
+    <!-- Rotating Radar Scanner Sweep Beam (60 degree sector wedge) -->
+    <path d="M 256 256 L 316 220 A 70 70 0 0 0 256 186 Z" fill="url(#radarSweep)" />
+    <!-- Sweep leading line -->
+    <line x1="256" y1="256" x2="316" y2="220" stroke="#00f0ff" stroke-width="2.5" filter="url(#blipGlow)" />
+
+    <!-- Target Found Blip / Ping Dot (HP Ditemukan!) -->
+    <circle cx="292" cy="230" r="10" fill="#10b981" fill-opacity="0.25" />
+    <circle cx="292" cy="230" r="5" fill="#34d399" filter="url(#blipGlow)" />
+    <circle cx="292" cy="230" r="2.5" fill="#ffffff" />
+
+    <!-- Radar Center Emitter Dot -->
+    <circle cx="256" cy="256" r="6" fill="#00f0ff" filter="url(#blipGlow)" />
+    <circle cx="256" cy="256" r="3" fill="#ffffff" />
+
+    <!-- Bottom Home Bar / Indicator Pill -->
+    <rect x="226" y="394" width="60" height="5" rx="2.5" fill="#475569" fill-opacity="0.8" />
+  </g>
+</svg>

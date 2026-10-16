@@ -1,0 +1,13 @@
+{
+  "appId": "com.firdaus.temukanhp",
+  "appName": "Temukan HP by Firdaus",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

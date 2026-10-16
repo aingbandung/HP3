@@ -1,0 +1,6 @@
+{
+  "name": "Temukan HP Ku - Clap to Find",
+  "description": "Aplikasi pelacak HP pintar dengan deteksi tepukan tangan, alarm suara custom tersimpan, sensitivitas real-time, dan pemantau latar belakang (background mode).",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
